@@ -8,7 +8,7 @@
 # 2) Если хотя бы одна сторона передана нулем или отрицательным числом,
 # то падаем с ValueError и текстом 'Стороны должны быть положительными'
 
-# 3) Если не соблюдается неравество треугольника,
+# 3) Если не соблюдается неравенство треугольника,
 # то Exception и текст "Не треугольник"
 
 # 4) Если передано не 3 аргумента, то IndexError "Передано {n} аргументов, а ожидается 3", где n - кол-во аргументов
@@ -16,14 +16,33 @@
 import unittest  # Не удалять
 
 
-# Здесь пишем код
+class Trigon:
+    """ В классе при инициализации происходит проверка на корректность переданных
+    данных и генерируются исключения"""
+    def __init__(self, *args):
+        self.numbers = self.test(*args)
+
+    @staticmethod
+    def test(*args):
+        """Генерация исключений"""
+        if len(args) != 3:
+            raise IndexError(f'Передано {len(args)} аргументов, а ожидается 3')
+        elif any(isinstance(y, str) for y in args):
+            raise TypeError('Стороны должны быть числами')
+        elif any(y <= 0 for y in args):
+            raise ValueError('Стороны должны быть положительными')
+        elif args[0] + args[1] < args[2] or args[1] + args[2] < args[0] or args[0] + args[2] < args[1]:
+            raise Exception('Не треугольник')
+        else:
+            return args
 
 # Ниже НИЧЕГО НЕ НАДО ИЗМЕНЯТЬ
 
 
 class MyTestCase(unittest.TestCase):
 
-    def test(self):
+    @staticmethod
+    def test():
         data = [(3, '7', 5), (-3, 7, 5), (2, 5, 2), (3, 4, 5, 6), (3, 4), (3, 4, 5)]
 
         test_data = [('Стороны должны быть числами', 'TypeError'),

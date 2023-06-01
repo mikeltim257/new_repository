@@ -16,7 +16,20 @@
 
 import unittest  # Не удалять
 
-# Здесь пишем код
+
+def treatment_sum(our_tuple):
+    """Функция принимает кортеж, определяет количество элементов
+    и возможность их сложения и выдает результат"""
+    try:
+        if len(our_tuple) < 2:
+            raise IndexError
+        if len(our_tuple) > 2:
+            raise Exception('Много данных')
+        return our_tuple[0] + our_tuple[1]
+    except TypeError:
+        return 'Нельзя сложить эти данные'
+    except IndexError:
+        return 'Недостаточно данных'
 
 # Ниже НИЧЕГО НЕ НАДО ИЗМЕНЯТЬ
 
@@ -24,6 +37,7 @@ import unittest  # Не удалять
 class MyTestCase(unittest.TestCase):
 
     def test(self):
+        """Входные данные - кортеж"""
         data = [(3, 5), (3, '7'), (3,), (), ('23', '32')]
 
         test_data = [8, 'Нельзя сложить эти данные', 'Недостаточно данных', 'Недостаточно данных', '2332']
